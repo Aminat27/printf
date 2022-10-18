@@ -1,5 +1,7 @@
 #include "main.h"
-/*print_char - prints character
+
+/**
+ * print_char - prints character
  * @ap: argument pointer
  * @params: the parameters struct
  *
@@ -12,13 +14,13 @@ int print_char(va_list ap, params_t *params)
 
 	if (params->minus_flag)
 		sum += _putchar(ch);
-	while (pad < params->width)
+	while (pad++ < params->width)
 		sum += _putchar(pad_char);
-		pad++;
 	if (!params->minus_flag)
 		sum += _putchar(ch);
 	return (sum);
 }
+
 /**
  * print_int - prints integer
  * @ap: argument pointer
@@ -28,29 +30,17 @@ int print_char(va_list ap, params_t *params)
  */
 int print_int(va_list ap, params_t *params)
 {
-	long i;
+	long l;
 
-	if  (params->l_modifier)
-		i = va_arg(ap, long);
+	if (params->l_modifier)
+		l = va_arg(ap, long);
 	else if (params->h_modifier)
-		i = (short int)va_arg(ap, int);
+		l = (short int)va_arg(ap, int);
 	else
-		i = (int)va_arg(ap, int);
-	return (print_number(convert(i, 10, 0, params), params));
-/**
- * print_percent - prints string %
- * @ap: argument pointer
- * @params: the parameters struct
- *
- * Return: percent(%)
- */
-int print_percent(va_list ap, params_t *params)
-{
-	(void)ap;
-	(void)params;
-
-	return (_putchar('%'));
+		l = (int)va_arg(ap, int);
+	return (print_number(convert(l, 10, 0, params), params));
 }
+
 /**
  * print_string - prints string
  * @ap: argument pointer
@@ -71,6 +61,7 @@ int print_string(va_list ap, params_t *params)
 	j = pad = _strlen(str);
 	if (params->precision < pad)
 		j = pad = params->precision;
+
 	if (params->minus_flag)
 	{
 		if (params->precision != UINT_MAX)
@@ -90,6 +81,20 @@ int print_string(va_list ap, params_t *params)
 			sum += _puts(str);
 	}
 	return (sum);
+}
+
+/**
+ * print_percent - prints string
+ * @ap: argument pointer
+ * @params: the parameters struct
+ *
+ * Return: number chars printed
+ */
+int print_percent(va_list ap, params_t *params)
+{
+	(void)ap;
+	(void)params;
+	return (_putchar('%'));
 }
 
 /**
