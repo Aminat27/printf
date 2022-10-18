@@ -1,134 +1,78 @@
 #include "main.h"
 /**
- * get_specifier - finds the format function
- * @s: string of the format
- * Return: the number of bytes printed
+ * is_printable - Evaluates if a char is printable
+ * @c: Char to be evaluated.
+ * Return: 1 if c is printable, 0 otherwise
  */
-int (*get_specifier(char *s))(va_list ap, params_t *params)
+int is_printable(char c)
 {
-	specifier_t specifiers[] =
-	{
-		{"c", print_char},
-		{"d", print_int},
-		{"i", print_int},
-		{"s", print_string},
-		{"%", print_percent},
-		{"b", print_binary},
-		{"o", print_octal},
-		{"u", print_unsigned},
-		{"x", print_hex},
-		{"X", print_HEX},
-		{"p", print_address},
-		{"S", print_S},
-		{"r", print_rev},
-		{"R", print_rot13},
-		{NULL, NULL}
-	};
-
-	int i = 0;
-
-	while (specifiers[i].specifier)
-	{
-		if (*s == specifiers[i].specifier[0])
-		{
-			return (specifiers[i].f);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-/**
- * get_print_func - finds the format function
- * @s: string of the format
- * @ap: argument pointer
- * @params: the parameters struct
- * Return: the number of bytes printed
- */
-int get_print_func(char *s, va_list ap, params_t *params)
-{
-	int (*f)(va_list, params_t *) = get_specifier(s);
-
-	if (f)
-		return (f(ap, params));
+	if (c >= 32 && c < 127)
+		return (1);
 	return (0);
 }
 
 /**
- * get_flag - finds the flag functions
- * @s: the format string
- * @params: the parameters struct
- * Return: if flag was valid
+ * append_hexa_code - Append ascci in hexadecimal code to buffer
+ * @buffer: Array of chars.
+ * @i: Index at which to start appending.
+ * @ascii_code: ASSCI CODE.
+ * Return: Always 3
  */
-int get_flag(char *s, params_t *params)
-{
-	int i = 0;
 
-	switch (*s)
-	{
-		case '+':
-			i = params->plus_flag = 1;
-			break;
-		case ' ':
-			i = params->space_flag = 1;
-			break;
-		case '#':
-			i = params->hashtag_flag = 1;
-			break;
-		case '-':
-			i = params->minus_flag = 1;
-			break;
-		case '0':
-			i = params->zero_flag = 1;
-			break;
-	}
-	return (i);
+int append_hexa_code(char ascii_code, char buffer[], int i)
+{
+	char map_to[] = "0123456789ABCDEF";
+
+	/* The hexa format code is always 2 digits long */
+	if (ascii_code < 0)
+		ascii_code *= -1;
+	buffer[i++] = '\\';
+	buffer[i++] = 'x';
+	buffer[i++] = map_to[ascii_code / 16];
+	buffer[i] = map_to[ascii_code % 16];
+	return (3);
+
 }
 
 /**
- * get_modifier - finds the modifier function
- * @s: string for format
- * @params: parameter structure
- * Return: if modifier was valid
+ * is_digit - Verifies if a char is a digit
+ * @c: Char to be evaluated
+ * Return: 1 if c is a digit, 0 otherwise
  */
-int get_modifier(char *s, params_t *params)
+int is_digit(char c)
 {
-	int i = 0;
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 
-	switch (*s)
-	{
-		case 'h':
-			i = params->h_modifier = 1;
-			break;
-		case 'l':
-			i = params->l_modifier = 1;
-			break;
-	}
-	return (i);
 }
 
 /**
- * get_width - gets the width from the format string
- * @s: the format string
- * @params: the parameters struct
- * @ap: the argument pointer
- * Return: new pointer
+ * convert_size_number - Casts a number to the specified size
+ * @num: Number to be casted.
+ * @size: Number indicating the type to be casted.
+ * Return: Casted value of num
  */
-char *get_width(char *s, params_t *params, va_list ap)
-	/* should this function use char **s and modify the pointer? */
+long int convert_size_number(long int num, int size)
 {
-	int d = 0;
+	if (size == S_LONG)
+		return (num);
+	else if (size == S_SHORT)
+		return ((short)num);
+	return ((int)num);
+}
 
-	if (*s == '*')
-	{
-		d = va_arg(ap, int);
-		s++;
-	}
-	else
-	{
-		while (_isdigit(*s))
-			d = d * 10 + (*s++ - '0');
-	}
-	params->width = d;
-	return (s);
+/**
+ * convert_size_unsgnd - Casts a number to the specified size 
+ * @num: Number to be casted
+ * @Size: Number indicating the type to be casted
+ * Return: Casted value of num
+ */
+long int convert_size_unsgnd(unsigned long int num, int size)
+{
+	if (size == S_LONG)
+		return (num);
+	else if (size == S_SHORT)
+		return ((unsigned short)num);
+	return ((unsigned int)num);
 }
