@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * print_from_to - prints a range of char addresses
  * @start: starting address
@@ -18,7 +19,6 @@ int print_from_to(char *start, char *stop, char *except)
 	}
 	return (sum);
 }
-
 /**
  * print_rev - prints string in reverse
  * @ap: string
@@ -28,6 +28,7 @@ int print_from_to(char *start, char *stop, char *except)
 int print_rev(va_list ap, params_t *params)
 {
 	int len, sum = 0;
+
 	char *str = va_arg(ap, char *);
 	(void)params;
 
@@ -38,10 +39,9 @@ int print_rev(va_list ap, params_t *params)
 		str--;
 		for (; len > 0; len--, str--)
 			sum += _putchar(*str);
-	}
+	}	
 	return (sum);
 }
-
 /**
  * print_rot13 - prints string in rot13
  * @ap: string
