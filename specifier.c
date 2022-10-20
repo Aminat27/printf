@@ -32,7 +32,7 @@ int (*get_specifier(char *s))(va_list ap, params_t *params)
 		if (*s == specifiers[i].specifier[0])
 		{
 			return (specifiers[i].f);
-		}
+		}	
 		i++;
 	}
 	return (NULL);
@@ -119,7 +119,12 @@ int get_modifier(char *s, params_t *params)
  * Return: new pointer
  */
 char *get_width(char *s, params_t *params, va_list ap)
+<<<<<<< HEAD:spec.c
+
+	/* should this function use char **s and modify the pointer? */
+=======
 /* should this function use char **s and modify the pointer? */
+>>>>>>> 3d104a0651a5bdb930ff9fcb668ff8ffc27604f0:specifier.c
 {
 	int d = 0;
 
@@ -127,7 +132,7 @@ char *get_width(char *s, params_t *params, va_list ap)
 	{
 		d = va_arg(ap, int);
 		s++;
-	}
+	}	
 	else
 	{
 		while (_isdigit(*s))
