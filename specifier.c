@@ -1,13 +1,14 @@
 #include "main.h"
+
 /**
- * get_specifier - finds the format function
- * @s: string of the format
+ * get_specifier - finds the format func
+ * @s: the format string
+ *
  * Return: the number of bytes printed
  */
 int (*get_specifier(char *s))(va_list ap, params_t *params)
 {
-	specifier_t specifiers[] =
-	{
+	specifier_t specifiers[] = {
 		{"c", print_char},
 		{"d", print_int},
 		{"i", print_int},
@@ -38,10 +39,11 @@ int (*get_specifier(char *s))(va_list ap, params_t *params)
 }
 
 /**
- * get_print_func - finds the format function
- * @s: string of the format
+ * get_print_func - finds the format func
+ * @s: the format string
  * @ap: argument pointer
  * @params: the parameters struct
+ *
  * Return: the number of bytes printed
  */
 int get_print_func(char *s, va_list ap, params_t *params)
@@ -54,9 +56,10 @@ int get_print_func(char *s, va_list ap, params_t *params)
 }
 
 /**
- * get_flag - finds the flag functions
+ * get_flag - finds the flag func
  * @s: the format string
  * @params: the parameters struct
+ *
  * Return: if flag was valid
  */
 int get_flag(char *s, params_t *params)
@@ -85,9 +88,10 @@ int get_flag(char *s, params_t *params)
 }
 
 /**
- * get_modifier - finds the modifier function
- * @s: string for format
- * @params: parameter structure
+ * get_modifier - finds the modifier func
+ * @s: the format string
+ * @params: the parameters struct
+ *
  * Return: if modifier was valid
  */
 int get_modifier(char *s, params_t *params)
@@ -96,12 +100,12 @@ int get_modifier(char *s, params_t *params)
 
 	switch (*s)
 	{
-		case 'h':
-			i = params->h_modifier = 1;
-			break;
-		case 'l':
-			i = params->l_modifier = 1;
-			break;
+	case 'h':
+		i = params->h_modifier = 1;
+		break;
+	case 'l':
+		i = params->l_modifier = 1;
+		break;
 	}
 	return (i);
 }
@@ -111,11 +115,16 @@ int get_modifier(char *s, params_t *params)
  * @s: the format string
  * @params: the parameters struct
  * @ap: the argument pointer
+ *
  * Return: new pointer
  */
 char *get_width(char *s, params_t *params, va_list ap)
+<<<<<<< HEAD:spec.c
 
 	/* should this function use char **s and modify the pointer? */
+=======
+/* should this function use char **s and modify the pointer? */
+>>>>>>> 3d104a0651a5bdb930ff9fcb668ff8ffc27604f0:specifier.c
 {
 	int d = 0;
 
@@ -132,3 +141,4 @@ char *get_width(char *s, params_t *params, va_list ap)
 	params->width = d;
 	return (s);
 }
+
