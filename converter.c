@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * convert - converter function, a clone of itoa
  * @num: number
@@ -25,19 +26,16 @@ char *convert(long int num, int base, int flags, params_t *params)
 		"0123456789abcdef" : "0123456789ABCDEF";
 	ptr = &buffer[49];
 	*ptr = '\0';
-
 	do
 	{
 		*--ptr = array[n % base];
 		n /= base;
 	}
 	while (n != 0);
-
 	if (sign)
 		*--ptr = sign;
 	return (ptr);
 }
-	
 /**
  * print_unsigned - prints unsigned integer numbers
  * @ap: argument pointer
@@ -57,7 +55,6 @@ int print_unsigned(va_list ap, params_t *params)
 	params->unsign = 1;
 	return (print_number(convert(l, 10, CONVERT_UNSIGNED, params), params));
 }
-
 /**
  * print_address - prints address
  * @ap: argument pointer
@@ -76,4 +73,3 @@ int print_address(va_list ap, params_t *params)
 	*--str = '0';
 	return (print_number(str, params));
 }
-	
